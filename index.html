@@ -408,6 +408,13 @@
                             </div>
                             <div class="tier-price">Contact us</div>
                         </div>
+                        <div class="tier">
+                            <div>
+                                <div class="tier-name">Additional Location</div>
+                                <div class="tier-details">Restaurant, bar, spa etc</div>
+                            </div>
+                            <div class="tier-price">+$79/mo</div>
+                        </div>
                     </div>
                 </div>
                 
@@ -435,12 +442,13 @@
                                 <div class="tier-name">WhatsApp Usage</div>
                                 <div class="tier-details">Per message sent</div>
                             </div>
-                            <div class="tier-price">$0.02</div>
+                            <div class="tier-price">$0.005</div>
                         </div>
                     </div>
                     
                     <div class="messaging-note">
-                        <strong>Volume Discounts:</strong> Available at 10K+ messages/month
+                        <strong>Volume Discounts:</strong> Available at 10K+ messages/month<br>
+                        <strong>WhatsApp Pricing:</strong> Plans managed by Meta, pricing starts from $0.005
                     </div>
                 </div>
                 
@@ -593,18 +601,20 @@
         // Pricing data in USD
         const monthlyPrices = {
             reviews: { starter: 99, professional: 199, enterprise: 399 },
-            messaging: { platform: 149, sms: 0.05, whatsapp: 0.02 },
+            messaging: { platform: 149, sms: 0.01, whatsapp: 0.005 },
             email: { essential: 79, growth: 149, scale: 299 },
             bundles: { small: 249, mid: 449, enterprise: 699 },
-            responseManagement: { small: 49, medium: 99 }
+            responseManagement: { small: 49, medium: 99 },
+            additionalLocation: 79
         };
         
         const annualPrices = {
             reviews: { starter: 79, professional: 159, enterprise: 319 },
-            messaging: { platform: 119, sms: 0.05, whatsapp: 0.02 },
+            messaging: { platform: 119, sms: 0.01, whatsapp: 0.005 },
             email: { essential: 63, growth: 119, scale: 239 },
             bundles: { small: 199, mid: 359, enterprise: 559 },
-            responseManagement: { small: 39, medium: 79 }
+            responseManagement: { small: 39, medium: 79 },
+            additionalLocation: 65
         };
         
         function convertPrice(price, currency) {
@@ -675,6 +685,13 @@
                             <div class="tier-details">Custom pricing</div>
                         </div>
                         <div class="tier-price">Contact us</div>
+                    </div>
+                    <div class="tier">
+                        <div>
+                            <div class="tier-name">Additional Location</div>
+                            <div class="tier-details">Restaurant, bar, spa etc</div>
+                        </div>
+                        <div class="tier-price">+${convertPrice(prices.additionalLocation, currentCurrency)}/mo</div>
                     </div>
                 `;
             }

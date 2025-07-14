@@ -570,158 +570,222 @@
     
     <script type="text/javascript" src="https://testimonial.to/js/iframeResizer.min.js"></script>
     <script type="text/javascript">
-        // Wait for the script to load before calling iFrameResize
-        window.addEventListener('load', function() {
-            if (typeof iFrameResize !== 'undefined') {
-                iFrameResize({log: false, checkOrigin: false}, '#testimonialto-guesttouch-tag-all-light-animated');
-            }
-        });
-    </script>
-    
-    <script>
         let isAnnual = false;
+        let currentCurrency = 'USD';
         
-        // Pricing data
+        // Exchange rates (approximate - in real app, you'd fetch these from an API)
+        const exchangeRates = {
+            USD: 1,
+            EUR: 0.85,
+            GBP: 0.73,
+            CAD: 1.25,
+            AUD: 1.35
+        };
+        
+        const currencySymbols = {
+            USD: '$',
+            EUR: '€',
+            GBP: '£',
+            CAD: '$',
+            AUD: '$'
+        };
+        
+        // Pricing data in USD
         const monthlyPrices = {
-            reviews: { starter: $99, professional: $199, enterprise: $399 },
-            messaging: { platform: $149, sms: $0.01, whatsapp: managed by Meta },
-            email: { essential: $79, growth: $149, scale: $299 },
-            bundles: { small: $249, mid: $449, enterprise: $699 },
-            responseManagement: { small: $49, medium: $99 }
+            reviews: { starter: 99, professional: 199, enterprise: 399 },
+            messaging: { platform: 149, sms: 0.05, whatsapp: 0.02 },
+            email: { essential: 79, growth: 149, scale: 299 },
+            bundles: { small: 249, mid: 449, enterprise: 699 },
+            responseManagement: { small: 49, medium: 99 }
         };
         
         const annualPrices = {
-            reviews: { starter: $79, professional: $159, enterprise: $319 },
-            messaging: { platform: $119, sms: $0.01, whatsapp: Managed by Meta },
-            email: { essential: $63, growth: $119, scale: $239 },
-            bundles: { small: $199, mid: $359, enterprise: $559 },
-            responseManagement: { small: $39, medium: $79 }
+            reviews: { starter: 79, professional: 159, enterprise: 319 },
+            messaging: { platform: 119, sms: 0.05, whatsapp: 0.02 },
+            email: { essential: 63, growth: 119, scale: 239 },
+            bundles: { small: 199, mid: 359, enterprise: 559 },
+            responseManagement: { small: 39, medium: 79 }
         };
+        
+        function convertPrice(price, currency) {
+            const converted = price * exchangeRates[currency];
+            const symbol = currencySymbols[currency];
+            
+            // For small prices like SMS/WhatsApp, show more decimals
+            if (price < 1) {
+                return `${symbol}${converted.toFixed(3)}`;
+            }
+            return `${symbol}${Math.round(converted)}`;
+        }
         
         function updatePrices() {
             const prices = isAnnual ? annualPrices : monthlyPrices;
             
+            // Check if elements exist before updating
+            const pricingTiers = document.querySelectorAll('.pricing-tiers');
+            
             // Update Reviews & Feedback Platform
-            document.querySelectorAll('.pricing-tiers')[0].innerHTML = `
-                <div class="tier">
-                    <div>
-                        <div class="tier-name">Starter</div>
-                        <div class="tier-details">Up to 100 rooms</div>
+            if (pricingTiers[0]) {
+                pricingTiers[0].innerHTML = `
+                    <div class="tier">
+                        <div>
+                            <div class="tier-name">Starter</div>
+                            <div class="tier-details">Up to 100 rooms</div>
+                        </div>
+                        <div class="tier-price">${convertPrice(prices.reviews.starter, currentCurrency)}/mo</div>
                     </div>
-                    <div class="tier-price">${prices.reviews.starter}/mo</div>
-                </div>
-                <div class="tier">
-                    <div>
-                        <div class="tier-name">Professional</div>
-                        <div class="tier-details">Up to 300 rooms</div>
+                    <div class="tier">
+                        <div>
+                            <div class="tier-name">Professional</div>
+                            <div class="tier-details">Up to 300 rooms</div>
+                        </div>
+                        <div class="tier-price">${convertPrice(prices.reviews.professional, currentCurrency)}/mo</div>
                     </div>
-                    <div class="tier-price">${prices.reviews.professional}/mo</div>
-                </div>
-                <div class="tier">
-                    <div>
-                        <div class="tier-name">Enterprise</div>
-                        <div class="tier-details">Unlimited rooms</div>
+                    <div class="tier">
+                        <div>
+                            <div class="tier-name">Enterprise</div>
+                            <div class="tier-details">Unlimited rooms</div>
+                        </div>
+                        <div class="tier-price">${convertPrice(prices.reviews.enterprise, currentCurrency)}/mo</div>
                     </div>
-                    <div class="tier-price">${prices.reviews.enterprise}/mo</div>
-                </div>
-            `;
+                `;
+            }
             
             // Update Response Management Add-on
-            document.querySelectorAll('.pricing-tiers')[1].innerHTML = `
-                <div style="color: #666; font-size: 0.9rem; margin-bottom: 10px; font-weight: 600;">Response Management Add-on:</div>
-                <div class="tier">
-                    <div>
-                        <div class="tier-name">1-50 rooms</div>
-                        <div class="tier-details">Automated responses</div>
+            if (pricingTiers[1]) {
+                pricingTiers[1].innerHTML = `
+                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 10px; font-weight: 600;">Response Management Add-on:</div>
+                    <div class="tier">
+                        <div>
+                            <div class="tier-name">1-50 rooms</div>
+                            <div class="tier-details">Managed brand responses w/in-built approval workflow</div>
+                        </div>
+                        <div class="tier-price">+${convertPrice(prices.responseManagement.small, currentCurrency)}/mo</div>
                     </div>
-                    <div class="tier-price">+${prices.responseManagement.small}/mo</div>
-                </div>
-                <div class="tier">
-                    <div>
-                        <div class="tier-name">51-200 rooms</div>
-                        <div class="tier-details">Automated responses</div>
+                    <div class="tier">
+                        <div>
+                            <div class="tier-name">51-200 rooms</div>
+                            <div class="tier-details">Managed brand responses w/in-built approval workflow</div>
+                        </div>
+                        <div class="tier-price">+${convertPrice(prices.responseManagement.medium, currentCurrency)}/mo</div>
                     </div>
-                    <div class="tier-price">+${prices.responseManagement.medium}/mo</div>
-                </div>
-                <div class="tier">
-                    <div>
-                        <div class="tier-name">200+ rooms</div>
-                        <div class="tier-details">Custom pricing</div>
+                    <div class="tier">
+                        <div>
+                            <div class="tier-name">200+ rooms</div>
+                            <div class="tier-details">Custom pricing</div>
+                        </div>
+                        <div class="tier-price">Contact us</div>
                     </div>
-                    <div class="tier-price">Contact us</div>
-                </div>
-            `;
+                `;
+            }
             
             // Update Messaging Platform
-            document.querySelectorAll('.pricing-tiers')[2].innerHTML = `
-                <div class="tier">
-                    <div>
-                        <div class="tier-name">Platform Fee</div>
-                        <div class="tier-details">Base platform access</div>
+            if (pricingTiers[2]) {
+                pricingTiers[2].innerHTML = `
+                    <div class="tier">
+                        <div>
+                            <div class="tier-name">Platform Fee</div>
+                            <div class="tier-details">Base platform access</div>
+                        </div>
+                        <div class="tier-price">${convertPrice(prices.messaging.platform, currentCurrency)}/mo</div>
                     </div>
-                    <div class="tier-price">${prices.messaging.platform}/mo</div>
-                </div>
-                <div class="tier">
-                    <div>
-                        <div class="tier-name">SMS Usage</div>
-                        <div class="tier-details">Per message sent</div>
+                    <div class="tier">
+                        <div>
+                            <div class="tier-name">SMS Usage</div>
+                            <div class="tier-details">Per message sent</div>
+                        </div>
+                        <div class="tier-price">${convertPrice(prices.messaging.sms, currentCurrency)}</div>
                     </div>
-                    <div class="tier-price">${prices.messaging.sms}</div>
-                </div>
-                <div class="tier">
-                    <div>
-                        <div class="tier-name">WhatsApp Usage</div>
-                        <div class="tier-details">Per message sent</div>
+                    <div class="tier">
+                        <div>
+                            <div class="tier-name">WhatsApp Usage</div>
+                            <div class="tier-details">Per message sent</div>
+                        </div>
+                        <div class="tier-price">${convertPrice(prices.messaging.whatsapp, currentCurrency)}</div>
                     </div>
-                    <div class="tier-price">${prices.messaging.whatsapp}</div>
-                </div>
-            `;
+                `;
+            }
             
             // Update Email Platform
-            document.querySelectorAll('.pricing-tiers')[3].innerHTML = `
-                <div class="tier">
-                    <div>
-                        <div class="tier-name">Essential</div>
-                        <div class="tier-details">Up to 5,000 emails</div>
+            if (pricingTiers[3]) {
+                pricingTiers[3].innerHTML = `
+                    <div class="tier">
+                        <div>
+                            <div class="tier-name">Essential</div>
+                            <div class="tier-details">Up to 5,000 emails</div>
+                        </div>
+                        <div class="tier-price">${convertPrice(prices.email.essential, currentCurrency)}/mo</div>
                     </div>
-                    <div class="tier-price">${prices.email.essential}/mo</div>
-                </div>
-                <div class="tier">
-                    <div>
-                        <div class="tier-name">Growth</div>
-                        <div class="tier-details">Up to 15,000 emails</div>
+                    <div class="tier">
+                        <div>
+                            <div class="tier-name">Growth</div>
+                            <div class="tier-details">Up to 15,000 emails</div>
+                        </div>
+                        <div class="tier-price">${convertPrice(prices.email.growth, currentCurrency)}/mo</div>
                     </div>
-                    <div class="tier-price">${prices.email.growth}/mo</div>
-                </div>
-                <div class="tier">
-                    <div>
-                        <div class="tier-name">Scale</div>
-                        <div class="tier-details">Up to 50,000 emails</div>
+                    <div class="tier">
+                        <div>
+                            <div class="tier-name">Scale</div>
+                            <div class="tier-details">Up to 50,000 emails</div>
+                        </div>
+                        <div class="tier-price">${convertPrice(prices.email.scale, currentCurrency)}/mo</div>
                     </div>
-                    <div class="tier-price">${prices.email.scale}/mo</div>
-                </div>
-            `;
+                `;
+            }
             
             // Update Bundle Prices
-            const bundleCards = document.querySelectorAll('.bundle-card');
-            if (bundleCards.length > 0) {
-                bundleCards[0].querySelector('.bundle-price').textContent = `${prices.bundles.small}`;
-                bundleCards[1].querySelector('.bundle-price').textContent = `${prices.bundles.mid}`;
-                bundleCards[2].querySelector('.bundle-price').textContent = `${prices.bundles.enterprise}`;
-                
-                // Update original prices for bundles
-                const monthlyBundleOriginal = [327, 597, 947];
-                const annualBundleOriginal = [261, 477, 757];
-                const originalPrices = isAnnual ? annualBundleOriginal : monthlyBundleOriginal;
-                
-                bundleCards[0].querySelector('.bundle-original').textContent = `normally ${originalPrices[0]}`;
-                bundleCards[1].querySelector('.bundle-original').textContent = `normally ${originalPrices[1]}`;
-                bundleCards[2].querySelector('.bundle-original').textContent = `normally ${originalPrices[2]}`;
-                
-                // Update savings
-                bundleCards[0].querySelector('.bundle-savings').textContent = `Save ${originalPrices[0] - prices.bundles.small}/month`;
-                bundleCards[1].querySelector('.bundle-savings').textContent = `Save ${originalPrices[1] - prices.bundles.mid}/month`;
-                bundleCards[2].querySelector('.bundle-savings').textContent = `Save ${originalPrices[2] - prices.bundles.enterprise}/month`;
+            try {
+                const bundleCards = document.querySelectorAll('.bundle-card');
+                if (bundleCards && bundleCards.length >= 3) {
+                    if (bundleCards[0] && bundleCards[0].querySelector('.bundle-price')) {
+                        bundleCards[0].querySelector('.bundle-price').textContent = convertPrice(prices.bundles.small, currentCurrency);
+                    }
+                    if (bundleCards[1] && bundleCards[1].querySelector('.bundle-price')) {
+                        bundleCards[1].querySelector('.bundle-price').textContent = convertPrice(prices.bundles.mid, currentCurrency);
+                    }
+                    if (bundleCards[2] && bundleCards[2].querySelector('.bundle-price')) {
+                        bundleCards[2].querySelector('.bundle-price').textContent = convertPrice(prices.bundles.enterprise, currentCurrency);
+                    }
+                    
+                    // Update original prices for bundles
+                    const monthlyBundleOriginal = [327, 597, 947];
+                    const annualBundleOriginal = [261, 477, 757];
+                    const originalPrices = isAnnual ? annualBundleOriginal : monthlyBundleOriginal;
+                    
+                    if (bundleCards[0] && bundleCards[0].querySelector('.bundle-original')) {
+                        bundleCards[0].querySelector('.bundle-original').textContent = `normally ${convertPrice(originalPrices[0], currentCurrency)}`;
+                    }
+                    if (bundleCards[1] && bundleCards[1].querySelector('.bundle-original')) {
+                        bundleCards[1].querySelector('.bundle-original').textContent = `normally ${convertPrice(originalPrices[1], currentCurrency)}`;
+                    }
+                    if (bundleCards[2] && bundleCards[2].querySelector('.bundle-original')) {
+                        bundleCards[2].querySelector('.bundle-original').textContent = `normally ${convertPrice(originalPrices[2], currentCurrency)}`;
+                    }
+                    
+                    // Update savings
+                    if (bundleCards[0] && bundleCards[0].querySelector('.bundle-savings')) {
+                        const savings0 = Math.round((originalPrices[0] - prices.bundles.small) * exchangeRates[currentCurrency]);
+                        bundleCards[0].querySelector('.bundle-savings').textContent = `Save ${currencySymbols[currentCurrency]}${savings0}/month`;
+                    }
+                    if (bundleCards[1] && bundleCards[1].querySelector('.bundle-savings')) {
+                        const savings1 = Math.round((originalPrices[1] - prices.bundles.mid) * exchangeRates[currentCurrency]);
+                        bundleCards[1].querySelector('.bundle-savings').textContent = `Save ${currencySymbols[currentCurrency]}${savings1}/month`;
+                    }
+                    if (bundleCards[2] && bundleCards[2].querySelector('.bundle-savings')) {
+                        const savings2 = Math.round((originalPrices[2] - prices.bundles.enterprise) * exchangeRates[currentCurrency]);
+                        bundleCards[2].querySelector('.bundle-savings').textContent = `Save ${currencySymbols[currentCurrency]}${savings2}/month`;
+                    }
+                }
+            } catch (error) {
+                console.log('Bundle update skipped - elements not found');
+            }
+        }
+        
+        function changeCurrency() {
+            const selector = document.getElementById('currency-selector');
+            if (selector) {
+                currentCurrency = selector.value;
+                updatePrices();
             }
         }
         
@@ -730,32 +794,53 @@
             const slider = document.getElementById('billing-slider');
             const savingsLabel = document.getElementById('annual-savings');
             
-            if (isAnnual) {
-                slider.style.left = '33px';
-                savingsLabel.style.opacity = '1';
-            } else {
-                slider.style.left = '3px';
-                savingsLabel.style.opacity = '0.7';
+            if (slider) {
+                if (isAnnual) {
+                    slider.style.left = '33px';
+                } else {
+                    slider.style.left = '3px';
+                }
+            }
+            
+            if (savingsLabel) {
+                if (isAnnual) {
+                    savingsLabel.style.opacity = '1';
+                } else {
+                    savingsLabel.style.opacity = '0.7';
+                }
             }
             
             updatePrices();
         }
         
         function showIndividual() {
-            document.getElementById('individual-pricing').style.display = 'block';
-            document.getElementById('bundle-pricing').style.display = 'none';
+            const individualPricing = document.getElementById('individual-pricing');
+            const bundlePricing = document.getElementById('bundle-pricing');
+            
+            if (individualPricing) individualPricing.style.display = 'block';
+            if (bundlePricing) bundlePricing.style.display = 'none';
             
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if (event && event.target) event.target.classList.add('active');
         }
         
         function showBundles() {
-            document.getElementById('individual-pricing').style.display = 'none';
-            document.getElementById('bundle-pricing').style.display = 'block';
+            const individualPricing = document.getElementById('individual-pricing');
+            const bundlePricing = document.getElementById('bundle-pricing');
+            
+            if (individualPricing) individualPricing.style.display = 'none';
+            if (bundlePricing) bundlePricing.style.display = 'block';
             
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if (event && event.target) event.target.classList.add('active');
         }
+        
+        // Wait for the script to load before calling iFrameResize
+        window.addEventListener('load', function() {
+            if (typeof iFrameResize !== 'undefined') {
+                iFrameResize({log: false, checkOrigin: false}, '#testimonialto-guesttouch-tag-all-light-animated');
+            }
+        });
     </script>
 </body>
 </html>

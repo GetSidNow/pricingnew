@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>GuestTouch Pricing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0c44ab 0%, #1e5bc9 50%, #0c44ab 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .header h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+        }
+        
+        .pricing-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        
+        .toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            margin: 0 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-btn.active {
+            background: white;
+            color: #0c44ab;
+            font-weight: 600;
+        }
+        
+        .pricing-section {
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            color: white;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-title {
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .product-description {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        
+        .pricing-tiers {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .tier {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #0c44ab;
+        }
+        
+        .tier-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .tier-details {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .tier-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0c44ab;
+        }
+        
+        .messaging-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #856404;
+        }
+        
+        .bundle-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .bundle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .bundle-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bundle-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0c44ab, #1e5bc9);
+        }
+        
+        .bundle-title {
+            color: #333;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .bundle-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #0c44ab;
+            margin-bottom: 5px;
+        }
+        
+        .bundle-original {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .bundle-savings {
+            background: #d4edda;
+            color: #155724;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .bundle-features {
+            text-align: left;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #0c44ab 0%, #1e5bc9 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(12, 68, 171, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(12, 68, 171, 0.4);
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .benefit {
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .benefit h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .benefit p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .bundle-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>GuestTouch Platform Pricing</h1>
+            <p>Choose the perfect plan for your brand's needs</p>
+            <div style="margin-top: 20px;">
+                <img src="https://cdn.prod.website-files.com/62c2a83de7fe5c513c65b6e8/640ff15d7250a346e08d747d_TripadvisorPartner_Lockup_LightMode-p-800.png" 
+                     alt="TripAdvisor Partner" 
+                     style="max-width: 200px; height: auto; opacity: 0.9;">
+            </div>
+        </div>
+        
+        <div class="pricing-toggle">
+            <button class="toggle-btn active" onclick="showIndividual()">Individual Products</button>
+            <button class="toggle-btn" onclick="showBundles()">Bundle & Save 25%</button>
+        </div>
+        
+        <div class="billing-toggle" style="display: flex; justify-content: center; margin-bottom: 40px; align-items: center;">
+            <span style="color: white; margin-right: 15px; font-weight: 500;">Monthly</span>
+            <div style="position: relative; width: 60px; height: 30px; background: rgba(255, 255, 255, 0.3); border-radius: 15px; cursor: pointer;" onclick="toggleBilling()">
+                <div id="billing-slider" style="position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; background: white; border-radius: 50%; transition: all 0.3s ease;"></div>
+            </div>
+            <span style="color: white; margin-left: 15px; font-weight: 500;">Annual</span>
+            <span id="annual-savings" style="background: #28a745; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: 600; margin-left: 10px;">Save 20%</span>
+            
+            <div style="margin-left: 30px; display: flex; align-items: center;">
+                <span style="color: white; margin-right: 10px; font-weight: 500;">Currency:</span>
+                <select id="currency-selector" onchange="changeCurrency()" style="background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3); color: white; padding: 6px 12px; border-radius: 8px; font-size: 0.9rem;">
+                    <option value="USD" style="background: #333; color: white;">USD ($)</option>
+                    <option value="EUR" style="background: #333; color: white;">EUR (€)</option>
+                    <option value="GBP" style="background: #333; color: white;">GBP (£)</option>
+                    <option value="CAD" style="background: #333; color: white;">CAD ($)</option>
+                    <option value="AUD" style="background: #333; color: white;">AUD ($)</option>
+                </select>
+            </div>
+        </div>
+        
+        <div id="individual-pricing" class="pricing-section">
+            <h2 class="section-title">Individual Product Pricing</h2>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <h3 class="product-title">Reviews & Feedback Platform</h3>
+                    <p class="product-description">Proactive reputation management with custom feedback forms, powered by guestAI</p>
+                    
+                    <div class="pricing-tiers">
+                        <div class="tier">
+                            <div>
+                                <div class="tier-name">Starter</div>
+                                <div class="tier-details">Up to 100 rooms</div>
+                            </div>
+                            <div class="tier-price">$99/mo</div>
+                        </div>
+                        <div class="tier">
+                            <div>
+                                <div class="tier-name">Professional</div>
+                                <div class="tier-details">Up to 300 rooms</div>
+                            </div>
+                            <div class="tier-price">$199/mo</div>
+                        </div>
+                        <div class="tier">
+                            <div>
+                                <div class="tier-name">Enterprise</div>
+                                <div class="tier-details">Unlimited rooms</div>
+                            </div>
+                            <div class="tier-price">$399/mo</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-tiers" style="margin-top: 20px;">
+                        <div style="color: #666; font-size: 0.9rem; margin-bottom: 10px; font-weight: 600;">Response Management Add-on:</div>
+                        <div class="tier">
+                            <div>
+                                <div class="tier-name">1-50 rooms</div>
+                                <div class="tier-details">Automated responses</div>
+                            </div>
+                            <div class="tier-price">+$49/mo</div>
+                        </div>
+                        <div class="tier">
+                            <div>
+                                <div class="tier-name">51-200 rooms</div>
+                                <div class="tier-details">Automated responses</div>
+                            </div>
+                            <div class="tier-price">+$99/mo</div>
+                        </div>
+                        <div class="tier">
+                            <div>
+                                <div class="tier-name">200+ rooms</div>
+                                <div class="tier-details">Custom pricing</div>
+                            </div>
+                            <div class="tier-price">Contact us</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <h3 class="product-title">Messaging Platform</h3>
+                    <p class="product-description">Versatile messaging across guest journey via SMS, WhatsApp and more</p>
+                    
+                    <div class="pricing-tiers">
+                        <div class="tier">
+                            <div>
+                                <div class="tier-name">Platform Fee</div>
+                                <div class="tier-details">Base platform access</div>
+                            </div>
+                            <div class="tier-price">$149/mo</div>
+                        </div>
+                        <div class="tier">
+                            <div>
+                                <div class="tier-name">SMS Usage</div>
+                                <div class="tier-details">Per message sent</div>
+                            </div>
+                            <div class="tier-price">$0.05</div>
+                        </div>
+                        <div class="tier">
+                            <div>
+                                <div class="tier-name">WhatsApp Usage</div>
+                                <div class="tier-details">Per message sent</div>
+                            </div>
+                            <div class="tier-price">$0.02</div>
+                        </div>
+                    </div>
+                    
+                    <div class="messaging-note">
+                        <strong>Volume Discounts:</strong> Available at 10K+ messages/month
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <h3 class="product-title">Email Platform</h3>
+                    <p class="product-description">Personalized email sequences with custom HTML templates and automation</p>
+                    
+                    <div class="pricing-tiers">
+                        <div class="tier">
+                            <div>
+                                <div class="tier-name">Essential</div>
+                                <div class="tier-details">Up to 5,000 emails</div>
+                            </div>
+                            <div class="tier-price">$79/mo</div>
+                        </div>
+                        <div class="tier">
+                            <div>
+                                <div class="tier-name">Growth</div>
+                                <div class="tier-details">Up to 15,000 emails</div>
+                            </div>
+                            <div class="tier-price">$149/mo</div>
+                        </div>
+                        <div class="tier">
+                            <div>
+                                <div class="tier-name">Scale</div>
+                                <div class="tier-details">Up to 50,000 emails</div>
+                            </div>
+                            <div class="tier-price">$299/mo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="bundle-pricing" class="pricing-section" style="display: none;">
+            <div class="bundle-section">
+                <h2 class="section-title">Complete GuestTouch Suite - Save 25%</h2>
+                
+                <div class="bundle-grid">
+                    <div class="bundle-card">
+                        <h3 class="bundle-title">Small Hotel Bundle</h3>
+                        <div class="bundle-price">$249</div>
+                        <div class="bundle-original">normally $327</div>
+                        <div class="bundle-savings">Save $78/month</div>
+                        <div class="bundle-features">
+                            • Reviews & Feedback (Starter)<br>
+                            • Messaging Platform + Usage<br>
+                            • Email Platform (Essential)<br>
+                            • Setup & Training Included<br>
+                            • 24/7 Support
+                        </div>
+                    </div>
+                    
+                    <div class="bundle-card">
+                        <h3 class="bundle-title">Mid-Size Hotel Bundle</h3>
+                        <div class="bundle-price">$449</div>
+                        <div class="bundle-original">normally $597</div>
+                        <div class="bundle-savings">Save $148/month</div>
+                        <div class="bundle-features">
+                            • Reviews & Feedback (Professional)<br>
+                            • Messaging Platform + Usage<br>
+                            • Email Platform (Growth)<br>
+                            • Advanced Analytics<br>
+                            • Priority Support
+                        </div>
+                    </div>
+                    
+                    <div class="bundle-card">
+                        <h3 class="bundle-title">Enterprise Bundle</h3>
+                        <div class="bundle-price">$699</div>
+                        <div class="bundle-original">normally $947</div>
+                        <div class="bundle-savings">Save $248/month</div>
+                        <div class="bundle-features">
+                            • Reviews & Feedback (Enterprise)<br>
+                            • Messaging Platform + Usage<br>
+                            • Email Platform (Scale)<br>
+                            • Custom Integrations<br>
+                            • Dedicated Account Manager
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="benefits">
+                    <div class="benefit">
+                        <h3>🔧 Mix & Match</h3>
+                        <p>Choose any combination of products</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>📈 Scale Anytime</h3>
+                        <p>Start with one, add others as you grow</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>💰 Better Value</h3>
+                        <p>Bundle discounts increase with more products</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>🎯 Full Support</h3>
+                        <p>Setup, training, and ongoing support included</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <a href="https://guesttouch.com/demo" target="_blank" style="text-decoration: none;">
+                <button class="cta-button">Start Your Trial</button>
+            </a>
+            <p style="color: white; margin-top: 15px; opacity: 0.9;">
+                No setup fees • Cancel anytime • 30-day money-back guarantee
+            </p>
+            
+            <div style="margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 15px; backdrop-filter: blur(10px);">
+                <h3 style="color: white; margin-bottom: 10px; font-size: 1.2rem;">Need White Label or Agency Solutions?</h3>
+                <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 15px;">Custom branding and multi-client management available</p>
+                <a href="https://guesttouch.com/demo" target="_blank" style="text-decoration: none;">
+                    <button class="cta-button" style="background: rgba(255, 255, 255, 0.2); font-size: 1rem; padding: 12px 30px;">Contact Us for Custom Pricing</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let isAnnual = false;
+        
+        // Pricing data
+        const monthlyPrices = {
+            reviews: { starter: 99, professional: 199, enterprise: 399 },
+            messaging: { platform: 149, sms: 0.05, whatsapp: 0.02 },
+            email: { essential: 79, growth: 149, scale: 299 },
+            bundles: { small: 249, mid: 449, enterprise: 699 },
+            responseManagement: { small: 49, medium: 99 }
+        };
+        
+        const annualPrices = {
+            reviews: { starter: 79, professional: 159, enterprise: 319 },
+            messaging: { platform: 119, sms: 0.05, whatsapp: 0.02 },
+            email: { essential: 63, growth: 119, scale: 239 },
+            bundles: { small: 199, mid: 359, enterprise: 559 },
+            responseManagement: { small: 39, medium: 79 }
+        };
+        
+        function updatePrices() {
+            const prices = isAnnual ? annualPrices : monthlyPrices;
+            
+            // Update Reviews & Feedback Platform
+            document.querySelectorAll('.pricing-tiers')[0].innerHTML = `
+                <div class="tier">
+                    <div>
+                        <div class="tier-name">Starter</div>
+                        <div class="tier-details">Up to 100 rooms</div>
+                    </div>
+                    <div class="tier-price">${prices.reviews.starter}/mo</div>
+                </div>
+                <div class="tier">
+                    <div>
+                        <div class="tier-name">Professional</div>
+                        <div class="tier-details">Up to 300 rooms</div>
+                    </div>
+                    <div class="tier-price">${prices.reviews.professional}/mo</div>
+                </div>
+                <div class="tier">
+                    <div>
+                        <div class="tier-name">Enterprise</div>
+                        <div class="tier-details">Unlimited rooms</div>
+                    </div>
+                    <div class="tier-price">${prices.reviews.enterprise}/mo</div>
+                </div>
+            `;
+            
+            // Update Response Management Add-on
+            document.querySelectorAll('.pricing-tiers')[1].innerHTML = `
+                <div style="color: #666; font-size: 0.9rem; margin-bottom: 10px; font-weight: 600;">Response Management Add-on:</div>
+                <div class="tier">
+                    <div>
+                        <div class="tier-name">1-50 rooms</div>
+                        <div class="tier-details">Automated responses</div>
+                    </div>
+                    <div class="tier-price">+${prices.responseManagement.small}/mo</div>
+                </div>
+                <div class="tier">
+                    <div>
+                        <div class="tier-name">51-200 rooms</div>
+                        <div class="tier-details">Automated responses</div>
+                    </div>
+                    <div class="tier-price">+${prices.responseManagement.medium}/mo</div>
+                </div>
+                <div class="tier">
+                    <div>
+                        <div class="tier-name">200+ rooms</div>
+                        <div class="tier-details">Custom pricing</div>
+                    </div>
+                    <div class="tier-price">Contact us</div>
+                </div>
+            `;
+            
+            // Update Messaging Platform
+            document.querySelectorAll('.pricing-tiers')[2].innerHTML = `
+                <div class="tier">
+                    <div>
+                        <div class="tier-name">Platform Fee</div>
+                        <div class="tier-details">Base platform access</div>
+                    </div>
+                    <div class="tier-price">${prices.messaging.platform}/mo</div>
+                </div>
+                <div class="tier">
+                    <div>
+                        <div class="tier-name">SMS Usage</div>
+                        <div class="tier-details">Per message sent</div>
+                    </div>
+                    <div class="tier-price">${prices.messaging.sms}</div>
+                </div>
+                <div class="tier">
+                    <div>
+                        <div class="tier-name">WhatsApp Usage</div>
+                        <div class="tier-details">Per message sent</div>
+                    </div>
+                    <div class="tier-price">${prices.messaging.whatsapp}</div>
+                </div>
+            `;
+            
+            // Update Email Platform
+            document.querySelectorAll('.pricing-tiers')[3].innerHTML = `
+                <div class="tier">
+                    <div>
+                        <div class="tier-name">Essential</div>
+                        <div class="tier-details">Up to 5,000 emails</div>
+                    </div>
+                    <div class="tier-price">${prices.email.essential}/mo</div>
+                </div>
+                <div class="tier">
+                    <div>
+                        <div class="tier-name">Growth</div>
+                        <div class="tier-details">Up to 15,000 emails</div>
+                    </div>
+                    <div class="tier-price">${prices.email.growth}/mo</div>
+                </div>
+                <div class="tier">
+                    <div>
+                        <div class="tier-name">Scale</div>
+                        <div class="tier-details">Up to 50,000 emails</div>
+                    </div>
+                    <div class="tier-price">${prices.email.scale}/mo</div>
+                </div>
+            `;
+            
+            // Update Bundle Prices
+            const bundleCards = document.querySelectorAll('.bundle-card');
+            if (bundleCards.length > 0) {
+                bundleCards[0].querySelector('.bundle-price').textContent = `${prices.bundles.small}`;
+                bundleCards[1].querySelector('.bundle-price').textContent = `${prices.bundles.mid}`;
+                bundleCards[2].querySelector('.bundle-price').textContent = `${prices.bundles.enterprise}`;
+                
+                // Update original prices for bundles
+                const monthlyBundleOriginal = [327, 597, 947];
+                const annualBundleOriginal = [261, 477, 757];
+                const originalPrices = isAnnual ? annualBundleOriginal : monthlyBundleOriginal;
+                
+                bundleCards[0].querySelector('.bundle-original').textContent = `normally ${originalPrices[0]}`;
+                bundleCards[1].querySelector('.bundle-original').textContent = `normally ${originalPrices[1]}`;
+                bundleCards[2].querySelector('.bundle-original').textContent = `normally ${originalPrices[2]}`;
+                
+                // Update savings
+                bundleCards[0].querySelector('.bundle-savings').textContent = `Save ${originalPrices[0] - prices.bundles.small}/month`;
+                bundleCards[1].querySelector('.bundle-savings').textContent = `Save ${originalPrices[1] - prices.bundles.mid}/month`;
+                bundleCards[2].querySelector('.bundle-savings').textContent = `Save ${originalPrices[2] - prices.bundles.enterprise}/month`;
+            }
+        }
+        
+        function toggleBilling() {
+            isAnnual = !isAnnual;
+            const slider = document.getElementById('billing-slider');
+            const savingsLabel = document.getElementById('annual-savings');
+            
+            if (isAnnual) {
+                slider.style.left = '33px';
+                savingsLabel.style.opacity = '1';
+            } else {
+                slider.style.left = '3px';
+                savingsLabel.style.opacity = '0.7';
+            }
+            
+            updatePrices();
+        }
+        
+        function showIndividual() {
+            document.getElementById('individual-pricing').style.display = 'block';
+            document.getElementById('bundle-pricing').style.display = 'none';
+            
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        function showBundles() {
+            document.getElementById('individual-pricing').style.display = 'none';
+            document.getElementById('bundle-pricing').style.display = 'block';
+            
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
